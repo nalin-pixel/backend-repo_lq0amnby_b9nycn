@@ -38,11 +38,18 @@ class Product(BaseModel):
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
 
-# Add your own schemas here:
-# --------------------------------------------------
-
-# Note: The Flames database viewer will automatically:
-# 1. Read these schemas from GET /schema endpoint
-# 2. Use them for document validation when creating/editing
-# 3. Handle all database operations (CRUD) directly
-# 4. You don't need to create any database endpoints!
+# Microcredit Company schema
+class Company(BaseModel):
+    """Microcredit company profile
+    Collection name: "company"
+    """
+    name: str = Field(..., description="Company legal name")
+    license_id: Optional[str] = Field(None, description="Regulatory license or registration ID")
+    country: str = Field(..., description="Country of operation")
+    region: Optional[str] = Field(None, description="Region/State/Province")
+    portfolio_usd: float = Field(0, ge=0, description="Gross loan portfolio in USD")
+    active_borrowers: int = Field(0, ge=0, description="Number of active borrowers")
+    par30: float = Field(0, ge=0, le=100, description="Portfolio at Risk > 30 days in %")
+    avg_interest_rate: float = Field(0, ge=0, le=200, description="Average annualized interest rate in %")
+    status: str = Field("active", description="Operating status: active, suspended, closed")
+    rating: Optional[float] = Field(None, ge=0, le=5, description="Internal rating 0-5")
